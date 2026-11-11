@@ -2,7 +2,7 @@
 
 Analysis code for elastic-net metabolomic signatures of plant protein, animal protein, and the plant-to-animal protein ratio in the Nurses' Health Study (NHS), NHSII, and Health Professionals Follow-up Study (HPFS), with replication in the Women's Health Initiative (WHI), and prospective associations with incident type 2 diabetes.
 
-This repository contains scripts for the **primary analyses** reported in the manuscript (Cox models, metabolome-wide associations, biomarker partial correlations, dominance analysis, sequential R², figures, and supplementary tables). It does **not** include sensitivity scripts for elastic-net hyperparameters, selection-frequency reporting, or imputation diagnostics.
+This repository contains scripts for the **primary analyses** reported in the manuscript, including **elastic-net signature derivation**, Cox models, biomarker partial correlations, dominance analysis, sequential R², figures, and supplementary tables. It does **not** include sensitivity-only scripts (e.g. alpha 0.3/0.7, selection-frequency tables for reviewers, or imputation count diagnostics).
 
 ## Requirements
 
@@ -20,6 +20,20 @@ met_names_csv <- "[path]"   # full path to metabolite name lookup CSV
 ```
 
 Each analysis script begins with `source("00_paths.R")` and builds file locations with `file.path(repo, "…")`. Signature scores and imputed metabolomics data are produced upstream (elastic-net outputs and endpoint tables); this repository assumes those files exist under `repo`.
+
+## Elastic net (signature derivation)
+
+From `R/` (after editing `00_paths.R`):
+
+0. `impute_metabolites_qc.R` — optional if `imp_ztran_met_PR_multi_ep.RData` already exists under `repo`.
+1. `enet_run_all.R` — or run steps separately:
+   - `enet_step1_train_test_100reps.R` → `enet_run_all_step1()`
+   - `enet_step2_leave_one_out_training.R` → `enet_run_all_step2()` (slow)
+   - `enet_step3_merge_final_scores.R` → `enet_run_all_step3()`
+
+Outputs: `Enet/<Plant|Animal|Protein_ratio>/Prediction_merge_*.RData` and `Prediction_results_*.RData`, matching what downstream scripts load.
+
+File names for the ratio signature use `PR_multi_ep` (underscore); see `enet_signature_config.R` if your saved files differ.
 
 ## Suggested run order (discovery)
 
