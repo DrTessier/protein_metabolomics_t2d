@@ -1,3 +1,4 @@
+source("00_paths.R")
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
@@ -7,15 +8,15 @@ library(ggpubr)
 ### Animal protein
 #############
 
-load("/udd/nhtes/git/protein-metab-mortality/WHI-replication/aprot_predicted_score_WHI.RData")
+load(file.path(repo, "WHI-replication/aprot_predicted_score_WHI.RData"))
 
-#### Format for main plot by cohorts including WHI to be ran in /udd/nhtes/git/lifestyle-metab-mortality/Enet/Correlation_plot_signature_vs_lifestylescore_OPPOSITE.R
+#### WHI merge steps below; save figures under file.path(repo, "Enet/Correlation/")
 signature$aprot_p_sig <- signature$sig
 signature$newid <- signature$ID
 signature$cohort <- "WHI"
 merge_WHI <- signature[,c("newid", "aprot_avg_p", "cohort", "aprot_p_sig")]
 
-merge_harvard <- read.csv("/udd/nhtes/git/protein-metab-mortality/Enet/Animal/signature_aprot_0606-PR.csv")
+merge_harvard <- read.csv(file.path(repo, "Enet/Animal/signature_aprot_0606-PR.csv"))
 merge_harvard <- merge_harvard[,c("newid", "aprot_avg_p", "cohort", "aprot_p_sig")]
 
 ### Merge both datasets
@@ -118,7 +119,7 @@ plot_WHI_aprot <- ggplot(WHI_group_aprot, aes(x = actual_score_aprot, y = sig_ap
 
 grid1 <- grid.arrange(plot_NHS_aprot, plot_NHSII_aprot, plot_HPFS_aprot, plot_WHI_aprot, ncol = 1)
 
-ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_plots_aprot.png", 
+ggsave(file.path(repo, "Enet/Correlation/cohort_scatter_plots_aprot.png"), 
        plot = grid1, 
        width = 7, height = 25, dpi = 300)
 
@@ -128,15 +129,15 @@ ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_p
 ### Plant protein
 ###############
 
-load("/udd/nhtes/git/protein-metab-mortality/WHI-replication/vprot_predicted_score_WHI.RData")
+load(file.path(repo, "WHI-replication/vprot_predicted_score_WHI.RData"))
 
-#### Format for main plot by cohorts including WHI to be ran in /udd/nhtes/git/lifestyle-metab-mortality/Enet/Correlation_plot_signature_vs_lifestylescore_OPPOSITE.R
+#### WHI merge steps below; save figures under file.path(repo, "Enet/Correlation/")
 signature_vprot$vprot_p_sig <- signature_vprot$sig
 signature_vprot$newid <- signature_vprot$ID
 signature_vprot$cohort <- "WHI"
 merge_WHI <- signature_vprot[,c("newid", "vprot_avg_p", "cohort", "vprot_p_sig")]
 
-merge_harvard <- read.csv("/udd/nhtes/git/protein-metab-mortality/Enet/Plant/signature_vprot_0606-PR.csv")
+merge_harvard <- read.csv(file.path(repo, "Enet/Plant/signature_vprot_0606-PR.csv"))
 merge_harvard <- merge_harvard[,c("newid", "vprot_avg_p", "cohort", "vprot_p_sig")]
 
 ### Merge both datasets
@@ -240,7 +241,7 @@ plot_WHI_vprot <- ggplot(WHI_group_vprot, aes(x = actual_score_vprot, y = sig_vp
 
 grid2 <- grid.arrange(plot_NHS_vprot, plot_NHSII_vprot, plot_HPFS_vprot, plot_WHI_vprot, ncol = 1)
 
-ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_plots_vprot.png", 
+ggsave(file.path(repo, "Enet/Correlation/cohort_scatter_plots_vprot.png"), 
        plot = grid2, 
        width = 7, height = 25, dpi = 300)
 
@@ -251,15 +252,15 @@ ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_p
 ### Protein Ratio
 ###############
 
-load("/udd/nhtes/git/protein-metab-mortality/WHI-replication/PR_predicted_score_WHI.RData")
+load(file.path(repo, "WHI-replication/PR_predicted_score_WHI.RData"))
 
-#### Format for main plot by cohorts including WHI to be ran in /udd/nhtes/git/lifestyle-metab-mortality/Enet/Correlation_plot_signature_vs_lifestylescore_OPPOSITE.R
+#### WHI merge steps below; save figures under file.path(repo, "Enet/Correlation/")
 signature_pr$protein_ratio_sig <- signature_pr$sig
 signature_pr$newid <- signature_pr$ID
 signature_pr$cohort <- "WHI"
 merge_WHI <- signature_pr[,c("newid", "protein_ratio", "cohort", "protein_ratio_sig")]
 
-merge_harvard <- read.csv("/udd/nhtes/git/protein-metab-mortality/Enet/Protein_ratio/signature_pr_0606.csv")
+merge_harvard <- read.csv(file.path(repo, "Enet/Protein_ratio/signature_pr_0606.csv"))
 merge_harvard <- merge_harvard[,c("newid", "protein_ratio", "cohort", "protein_ratio_sig")]
 
 ### Merge both datasets
@@ -361,18 +362,18 @@ plot_WHI_pr <- ggplot(WHI_group_pr, aes(x = actual_score_pr, y = sig_pr)) +
 
 grid3 <- grid.arrange(plot_NHS_pr, plot_NHSII_pr, plot_HPFS_pr, plot_WHI_pr, ncol = 1)
 
-ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_plots_pr.png", 
+ggsave(file.path(repo, "Enet/Correlation/cohort_scatter_plots_pr.png"), 
        plot = grid3, 
        width = 7, height = 25, dpi = 300)
 
 
 grid_final <- grid.arrange(grid2, grid1, grid3, ncol = 3, heights = c(4, 1))
-ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_plots_all.png", 
+ggsave(file.path(repo, "Enet/Correlation/cohort_scatter_plots_all.png"), 
        plot = grid_final, 
        width = 19, height = 25, dpi = 300)
 
 
-ggsave("/udd/nhtes/git/protein-metab-mortality/Enet/Correlation/cohort_scatter_plots_all.svg", 
+ggsave(file.path(repo, "Enet/Correlation/cohort_scatter_plots_all.svg"), 
        plot = grid_final, 
        width = 19, height = 25, dpi = 300)
 
@@ -420,5 +421,5 @@ corr_results <- data.frame(
 print(corr_results)
 
 write.csv(corr_results,
-          "/udd/nhtes/git/protein-metab-mortality/Results_correlations_Fig2.csv",
+          file.path(repo, "Results_correlations_Fig2.csv"),
           row.names = FALSE)

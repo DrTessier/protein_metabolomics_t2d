@@ -1,20 +1,19 @@
-#### Biomarkers: merge discovery signatures + T2D with nhfwa labs, then partial correlations
+#### Biomarkers: merge discovery signatures + T2D with external lab files, then partial correlations
 #### Labs: biomarker.RData object `pool` (NOT biomarker_con.RData).
 #### Merge: newid only.
-#### Run: source("/udd/nhtes/git/protein-metab-mortality/biomarker_phyto202509.R")
+#### Run: source(file.path(repo, "biomarker_phyto202509.R"))
 
+source("00_paths.R")
 library(dplyr)
-
-repo   <- "/udd/nhtes/git/protein-metab-mortality"
 review <- file.path(repo, "Review")
-rdata  <- "/udd/nhfwa/phyto/202509/biomarker/biomarker.RData"
+rdata  <- biomarker_rdata
 
 FORCE_REMERGE <- TRUE
 PARTIAL_COV <- c("agemo", "cohort", "calor_avg")
 sig_vars <- c(plant = "vprot_p_sig", animal = "aprot_p_sig", ratio = "protein_ratio_sig")
 merged_rdata <- file.path(review, "AllCohorts_mortality_with_biomarker_phyto202509.RData")
 
-# Available labs from nhfwa `bio` (do not add others). BMI is already on the cohort table.
+# Available labs from the biomarker `bio` object (do not add others). BMI is already on the cohort table.
 bio_labels <- c(
   `C-peptide`  = "adj_lncpep",
   HbA1c        = "adj_lna1c",

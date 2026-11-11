@@ -4,15 +4,14 @@
 ####
 #### Needs: Enet + WHI signature files (as in correlations.R),
 ####        Review/food_contribution_signatures.csv
-#### Run: source("/udd/nhtes/git/protein-metab-mortality/figure3_intake_dominance.R")
+#### Run: source(file.path(repo, "figure3_intake_dominance.R"))
 
+source("00_paths.R")
 library(ggplot2)
 library(dplyr)
 library(patchwork)
 
 options(device = function(...) grDevices::pdf(file = NULL))
-
-repo   <- "/udd/nhtes/git/protein-metab-mortality"
 review <- file.path(repo, "Review")
 fig_font <- 7
 # npj Science of Food: Arial or Helvetica (not Calibri)

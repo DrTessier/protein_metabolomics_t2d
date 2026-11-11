@@ -7,7 +7,7 @@
 ####        Review/biomarker_partial_correlations_phyto202509.csv
 #### Heatmap plot is inlined (same as figure_heatmap_shared17_vertical.R) so this file runs alone.
 #### Does not overwrite heatmap_multi-ep.RData.
-#### Run: source("/udd/nhtes/git/protein-metab-mortality/figure4_metabolite_biomarker.R")
+#### Run: source(file.path(repo, "figure4_metabolite_biomarker.R"))
 ####
 #### Caption:
 #### Figure 4. Association of shared signature metabolites with protein-rich foods,
@@ -27,14 +27,13 @@
 #### biomarkers, residualized on age, cohort, and total energy intake.
 #### *P < 0.05; **Bonferroni-adjusted P < 0.05.
 
+source("00_paths.R")
 library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(scales)
 
 options(device = function(...) grDevices::pdf(file = NULL))
-
-repo   <- "/udd/nhtes/git/protein-metab-mortality"
 review <- file.path(repo, "Review")
 fig_font <- 7
 fig_family <- "Arial"

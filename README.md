@@ -11,13 +11,15 @@ This repository contains scripts for the **primary analyses** reported in the ma
 
 ## Path configuration
 
-Scripts assume the discovery project root:
+Edit `R/00_paths.R` before running any script. Replace the placeholders with your local paths:
 
 ```r
-repo <- "/udd/nhtes/git/protein-metab-mortality"
+repo <- "[path]"           # project root (Enet/, Endpoints/, Review/, Heatmap/, …)
+biomarker_rdata <- "[path]" # full path to biomarker.RData (labs object `pool`)
+met_names_csv <- "[path]"   # full path to metabolite name lookup CSV
 ```
 
-Change `repo` (and paths such as biomarker `RData` under `/udd/nhfwa/...`) if your installation differs. Signature scores and imputed metabolomics data are produced upstream (elastic-net prediction merges and endpoint CSVs); this repo starts from those saved objects unless noted in each script header.
+Each analysis script begins with `source("00_paths.R")` and builds file locations with `file.path(repo, "…")`. Signature scores and imputed metabolomics data are produced upstream (elastic-net outputs and endpoint tables); this repository assumes those files exist under `repo`.
 
 ## Suggested run order (discovery)
 

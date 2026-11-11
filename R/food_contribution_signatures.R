@@ -1,3 +1,4 @@
+source("00_paths.R")
 library(domir)
 
 #### Relative contribution of food groups to the metabolomic signatures (dominance analysis)
@@ -5,16 +6,16 @@ library(domir)
 #### with covariates included in every model so that their contribution is not attributed to foods
 
 # Discovery cohort: imputed data + signature scores (same merges as script.R)
-endpoints_rdata <- "/udd/nhtes/git/protein-metab-mortality/Endpoints/Endpoints_dataset-multi-ep.RData"
+endpoints_rdata <- file.path(repo, "Endpoints/Endpoints_dataset-multi-ep.RData")
 if (file.exists(endpoints_rdata)) {
   load(endpoints_rdata)
 } else {
-  load("/udd/nhtes/git/protein-metab-mortality/Enet/Plant/Prediction_results_vprot-PR-multi-ep.RData")
-  load("/udd/nhtes/git/protein-metab-mortality/Enet/Plant/Prediction_merge_vprot-PR-multi-ep.RData")
+  load(file.path(repo, "Enet/Plant/Prediction_results_vprot-PR-multi-ep.RData"))
+  load(file.path(repo, "Enet/Plant/Prediction_merge_vprot-PR-multi-ep.RData"))
   signature_vprot <- signature
-  load("/udd/nhtes/git/protein-metab-mortality/Enet/Animal/Prediction_merge_aprot-PR-multi-ep.RData")
+  load(file.path(repo, "Enet/Animal/Prediction_merge_aprot-PR-multi-ep.RData"))
   signature_aprot <- signature
-  load("/udd/nhtes/git/protein-metab-mortality/Enet/Protein_ratio/Prediction_merge_PR_multi_ep.RData")
+  load(file.path(repo, "Enet/Protein_ratio/Prediction_merge_PR_multi_ep.RData"))
   signature_PR <- signature
   AllCohorts_mortality <- AllCohorts_clean_ztransformed
   AllCohorts_mortality <- merge(AllCohorts_mortality, signature_vprot[, c("newid", "vprot_p_sig")], by = "newid", all.x = TRUE)
@@ -102,8 +103,7 @@ food_contribution <- function(signature) {
 contribution_table <- do.call(rbind, lapply(signatures, food_contribution))
 rownames(contribution_table) <- NULL
 print(contribution_table)
-
-out_dir <- "/udd/nhtes/git/protein-metab-mortality/Review"
+out_dir <- file.path(repo, "Review")
 if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 out_file <- switch(adjustment,
   minimal = "food_contribution_signatures.csv",

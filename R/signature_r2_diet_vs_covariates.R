@@ -7,9 +7,9 @@
 #### Food variables are servings/day. Replace `foods` with protein grams when those
 #### variables exist; the self-reported column is then the fair reconstruction of intake.
 ####
-#### Run: source("/udd/nhtes/git/protein-metab-mortality/signature_r2_diet_vs_covariates.R")
-
-endpoints_rdata <- "/udd/nhtes/git/protein-metab-mortality/Endpoints/Endpoints_dataset-multi-ep.RData"
+#### Run: source(file.path(repo, "signature_r2_diet_vs_covariates.R"))
+source("00_paths.R")
+endpoints_rdata <- file.path(repo, "Endpoints/Endpoints_dataset-multi-ep.RData")
 if (file.exists(endpoints_rdata)) {
   load(endpoints_rdata)
 } else {
@@ -95,8 +95,7 @@ cat("\n=== Food groups, then other factors (signature and self-reported intake) 
 print(food_tab, row.names = FALSE)
 cat("\n=== Protein intake, then other factors (signature only) ===\n")
 print(intake_tab, row.names = FALSE)
-
-out_dir <- "/udd/nhtes/git/protein-metab-mortality/Review"
+out_dir <- file.path(repo, "Review")
 if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 write.csv(food_tab, file.path(out_dir, "signature_r2_foods_then_covariates.csv"), row.names = FALSE)
 write.csv(intake_tab, file.path(out_dir, "signature_r2_intake_then_covariates.csv"), row.names = FALSE)

@@ -3,16 +3,15 @@
 #### Biomarkers are those actually available (no WC, glucose, HOMA-IR, TNF-α, HDL, TAG)
 ####
 #### Run on Channing after biomarker_phyto202509.R has written the partial-r CSV:
-####   source("/udd/nhtes/git/protein-metab-mortality/figure2_signature_biomarker.R")
+####   source(file.path(repo, "figure2_signature_biomarker.R"))
 
+source("00_paths.R")
 library(ggplot2)
 library(dplyr)
 library(patchwork)
 library(scales)
 
 options(device = function(...) grDevices::pdf(file = NULL))
-
-repo   <- "/udd/nhtes/git/protein-metab-mortality"
 review <- file.path(repo, "Review")
 fig_font <- 7
 

@@ -1,3 +1,4 @@
+source("00_paths.R")
 library(tidyverse)
 library(dplyr)
 library(survival)
@@ -9,14 +10,14 @@ library(survival)
 
 
 # Get covariates
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Plant/Prediction_results_vprot-PR-multi-ep.RData")
+load(file.path(repo, "Enet/Plant/Prediction_results_vprot-PR-multi-ep.RData"))
 
 # Get metabolomic signature and
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Plant/Prediction_merge_vprot-PR-multi-ep.RData")
+load(file.path(repo, "Enet/Plant/Prediction_merge_vprot-PR-multi-ep.RData"))
 signature_vprot <- signature
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Animal/Prediction_merge_aprot-PR-multi-ep.RData")
+load(file.path(repo, "Enet/Animal/Prediction_merge_aprot-PR-multi-ep.RData"))
 signature_aprot <- signature
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Protein_ratio/Prediction_merge_PR_multi_ep.RData")
+load(file.path(repo, "Enet/Protein_ratio/Prediction_merge_PR_multi_ep.RData"))
 signature_PR <- signature
 gdata::keep(AllCohorts_clean_ztransformed, signature_vprot, signature_aprot, signature_PR, sure=T)
 
@@ -44,13 +45,13 @@ t2d_cols <- c("newid",
               "exrec",                     # exclusion flag
               "ses")                       # socioeconomic status
 
-hpfs <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/hpcoxPPP.csv", header = T)
+hpfs <- read.csv(file.path(repo, "Endpoints/hpcoxPPP.csv"), header = T)
 hpfs_unique <- hpfs[!duplicated(hpfs$newid), t2d_cols]
 
-nhs1 <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/nhs1coxPPP.csv", header = T)
+nhs1 <- read.csv(file.path(repo, "Endpoints/nhs1coxPPP.csv"), header = T)
 nhs1_unique <- nhs1[!duplicated(nhs1$newid), t2d_cols]
 
-nhs2 <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/nhs2coxPPP.csv", header = T)
+nhs2 <- read.csv(file.path(repo, "Endpoints/nhs2coxPPP.csv"), header = T)
 nhs2_unique <- nhs2[!duplicated(nhs2$newid), t2d_cols]
 
 AllCohorts_endpoints <- bind_rows(nhs1_unique, nhs2_unique, hpfs_unique)
@@ -108,7 +109,7 @@ for (i in 1:length(factor)){
 # new_cancer <- subset(AllCohorts_mortality, tcancer >= 0)
 
 
-save.image("/udd/nhtes/git/protein-metab-mortality/Endpoints/Endpoints_dataset-multi-ep.RData")
+save.image(file.path(repo, "Endpoints/Endpoints_dataset-multi-ep.RData"))
 
 
 #### MEDIATION FOR DIABETES — product-of-coefficients method (Baron & Kenny)
@@ -247,7 +248,7 @@ Table2 <- rbind(
 colnames(Table2) <- c("Model", "NHS/NHSII/HPFS HR (95%CI)", "P value", "WHI HR (95%CI)", "P value")
 
 write.table(Table2, 
-            file = "/udd/nhtes/git/protein-metab-mortality/Endpoints/Table2_signature_T2D.txt",
+            file = file.path(repo, "Endpoints/Table2_signature_T2D.txt"),
             sep = "*", quote = FALSE, row.names = FALSE)
 
 print(Table2)
@@ -308,7 +309,7 @@ TableS_selfreport <- rbind(
 colnames(TableS_selfreport) <- c("Model", "HR per 1 SD (95%CI)", "P value")
 
 write.table(TableS_selfreport,
-            file = "/udd/nhtes/git/protein-metab-mortality/Endpoints/TableS_selfreported_T2D.txt",
+            file = file.path(repo, "Endpoints/TableS_selfreported_T2D.txt"),
             sep = "*", quote = FALSE, row.names = FALSE)
 print(TableS_selfreport)
 
@@ -353,7 +354,7 @@ TableS_controls <- rbind(
 )
 colnames(TableS_controls) <- c("Signature", "Model", "HR per 1 SD (95%CI)", "P value")
 write.table(TableS_controls,
-            file = "/udd/nhtes/git/protein-metab-mortality/Endpoints/TableS_T2D_controls_only.txt",
+            file = file.path(repo, "Endpoints/TableS_T2D_controls_only.txt"),
             sep = "*", quote = FALSE, row.names = FALSE)
 print(TableS_controls)
 

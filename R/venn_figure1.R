@@ -1,3 +1,4 @@
+source("00_paths.R")
 library(dplyr)
 library(readxl)
 library(ggplot2)
@@ -14,14 +15,14 @@ library(svglite)
 ### venn diagram https://www.rdocumentation.org/packages/VennDiagram/versions/1.7.3/topics/calculate.overlap
 
 # readin metabolites names
-met_names <- read.csv ('/udd/nhtes/git/lifestyle-metab-mortality/met_name.csv', header=TRUE, sep=',')
+met_names <- read.csv(met_names_csv, header=TRUE, sep=',')
 
 #readin metabolites dataset
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Animal/Prediction_results_aprot-PR-multi-ep.RData")
+load(file.path(repo, "Enet/Animal/Prediction_results_aprot-PR-multi-ep.RData"))
 
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Plant/Prediction_results_vprot-PR-multi-ep.RData")
+load(file.path(repo, "Enet/Plant/Prediction_results_vprot-PR-multi-ep.RData"))
 
-load("/udd/nhtes/git/protein-metab-mortality/Enet/Protein_ratio/Prediction_results_PR_multi_ep.RData")
+load(file.path(repo, "Enet/Protein_ratio/Prediction_results_PR_multi_ep.RData"))
 
 # readin selected metabolites
 aprot_enet_heatmap_data <- data.frame(Metabolite=met_aprot, aprot_coef_numeric=as.numeric(aprot_coef))
@@ -33,39 +34,39 @@ pr_enet_heatmap_data <- data.frame(Metabolite=met_pr, pr_coef_numeric=as.numeric
 
 #readin beta and ORs of association between all metabolites and lifestyle score anf individual factors
 
-vprot_p <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_vprot_p_ztran-multi-ep.csv", header=T) 
-aprot_p <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_aprot_p_ztran-multi-ep.csv", header=T) 
-prot_ratio <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_prot_ratio_ztran-multi-ep.csv", header=T) 
-legu <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_legu_ztran-multi-ep.csv", header=T) 
-nuts <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_nuts_ztran-multi-ep.csv", header=T) 
-rgrain <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_rgrain_ztran-multi-ep.csv", header=T) 
-wgrain <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_wgrain_ztran-multi-ep.csv", header=T) 
-procm <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_procm_ztran-multi-ep.csv", header=T) 
-rmeat <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_rmeat_ztran-multi-ep.csv", header=T) 
-poul <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_poul_ztran-multi-ep.csv", header=T) 
-fish <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_fish_ztran-multi-ep.csv", header=T) 
-egg <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_egg_ztran-multi-ep.csv", header=T) 
-dairy <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_dairy_ztran-multi-ep.csv", header=T) 
+vprot_p <- read.csv(file.path(repo, "Results_vprot_p_ztran-multi-ep.csv"), header=T) 
+aprot_p <- read.csv(file.path(repo, "Results_aprot_p_ztran-multi-ep.csv"), header=T) 
+prot_ratio <- read.csv(file.path(repo, "Results_prot_ratio_ztran-multi-ep.csv"), header=T) 
+legu <- read.csv(file.path(repo, "Results_legu_ztran-multi-ep.csv"), header=T) 
+nuts <- read.csv(file.path(repo, "Results_nuts_ztran-multi-ep.csv"), header=T) 
+rgrain <- read.csv(file.path(repo, "Results_rgrain_ztran-multi-ep.csv"), header=T) 
+wgrain <- read.csv(file.path(repo, "Results_wgrain_ztran-multi-ep.csv"), header=T) 
+procm <- read.csv(file.path(repo, "Results_procm_ztran-multi-ep.csv"), header=T) 
+rmeat <- read.csv(file.path(repo, "Results_rmeat_ztran-multi-ep.csv"), header=T) 
+poul <- read.csv(file.path(repo, "Results_poul_ztran-multi-ep.csv"), header=T) 
+fish <- read.csv(file.path(repo, "Results_fish_ztran-multi-ep.csv"), header=T) 
+egg <- read.csv(file.path(repo, "Results_egg_ztran-multi-ep.csv"), header=T) 
+dairy <- read.csv(file.path(repo, "Results_dairy_ztran-multi-ep.csv"), header=T) 
 
-mort <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/Results_indmetab_dead.csv", header=T) 
-db <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/Results_indmetab_db2.csv", header=T) 
-cvd <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/Results_indmetab_cvd.csv", header=T) 
-longev <- read.csv("/udd/nhtes/git/protein-metab-mortality/Endpoints/Results_indmetab_longev.csv", header=T) 
+mort <- read.csv(file.path(repo, "Endpoints/Results_indmetab_dead.csv"), header=T) 
+db <- read.csv(file.path(repo, "Endpoints/Results_indmetab_db2.csv"), header=T) 
+cvd <- read.csv(file.path(repo, "Endpoints/Results_indmetab_cvd.csv"), header=T) 
+longev <- read.csv(file.path(repo, "Endpoints/Results_indmetab_longev.csv"), header=T) 
 
 
-# vprot_p <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_vprot_p_ztran.csv", header=T) 
-# aprot_p <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_aprot_p_ztran.csv", header=T) 
-# prot_ratio <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_prot_ratio_ztran.csv", header=T) 
-# legu <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_legu_ztran.csv", header=T) 
-# nuts <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_nuts_ztran.csv", header=T) 
-# rgrain <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_rgrain_ztran.csv", header=T) 
-# wgrain <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_wgrain_ztran.csv", header=T) 
-# procm <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_procm_ztran.csv", header=T) 
-# rmeat <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_rmeat_ztran.csv", header=T) 
-# poul <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_poul_ztran.csv", header=T) 
-# fish <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_fish_ztran.csv", header=T) 
-# egg <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_egg_ztran.csv", header=T) 
-# dairy <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_dairy_ztran.csv", header=T) 
+# vprot_p <- read.csv(file.path(repo, "Results_vprot_p_ztran.csv"), header=T) 
+# aprot_p <- read.csv(file.path(repo, "Results_aprot_p_ztran.csv"), header=T) 
+# prot_ratio <- read.csv(file.path(repo, "Results_prot_ratio_ztran.csv"), header=T) 
+# legu <- read.csv(file.path(repo, "Results_legu_ztran.csv"), header=T) 
+# nuts <- read.csv(file.path(repo, "Results_nuts_ztran.csv"), header=T) 
+# rgrain <- read.csv(file.path(repo, "Results_rgrain_ztran.csv"), header=T) 
+# wgrain <- read.csv(file.path(repo, "Results_wgrain_ztran.csv"), header=T) 
+# procm <- read.csv(file.path(repo, "Results_procm_ztran.csv"), header=T) 
+# rmeat <- read.csv(file.path(repo, "Results_rmeat_ztran.csv"), header=T) 
+# poul <- read.csv(file.path(repo, "Results_poul_ztran.csv"), header=T) 
+# fish <- read.csv(file.path(repo, "Results_fish_ztran.csv"), header=T) 
+# egg <- read.csv(file.path(repo, "Results_egg_ztran.csv"), header=T) 
+# dairy <- read.csv(file.path(repo, "Results_dairy_ztran.csv"), header=T) 
 
 ## merge the selected metabolites and their coefficients from enet with beta for sources of protein intake and food groups
 
@@ -76,7 +77,7 @@ data_heatmap2 <- merge(data_heatmap1, pr_enet_heatmap_data, by.x="Metabolite", b
 data_heatmap_final <- merge(data_heatmap2, met_names[,c("HMDB", "rep", "name", "cate")], by.x="Metabolite", by.y ="HMDB", all.x=T)
 
 #write excel file with overlaps between Enet-selected metabolites for aprot, vprot and PR
-write.csv(data_heatmap_final, "/udd/nhtes/git/protein-metab-mortality/Heatmap/protein_intake_overlap-multi-ep.csv", na="")
+write.csv(data_heatmap_final, file.path(repo, "Heatmap/protein_intake_overlap-multi-ep.csv"), na="")
 
 
 data_heatmap3 <- merge(data_heatmap2, vprot_p[,c("Metabolite","Beta.mod2", "p.value.mod2", "p.value.mod2.bon")], by.x="Metabolite", by.y ="Metabolite", all.x=T)
@@ -194,22 +195,22 @@ data_heatmap_final <- merge(data_heatmap19, met_names[,c("HMDB", "rep", "name", 
 # current file named Results_heatmap.csv has the CATE that had comma and reads as several columns instead of one single column. 
 # If you re-run this code it will be ok because I excluded cate and CATE
 
-save.image(file="/udd/nhtes/git/protein-metab-mortality/Heatmap/heatmap_multi-ep.RData")
+save.image(file=file.path(repo, "Heatmap/heatmap_multi-ep.RData"))
 
 
-# vprot_p <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_vprot_p.csv", header=T) 
-# aprot_p <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_aprot_p.csv", header=T) 
-# prot_ratio <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_prot_ratio.csv", header=T) 
-# legu <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_legu.csv", header=T) 
-# nuts <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_nuts.csv", header=T) 
-# rgrain <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_rgrain.csv", header=T) 
-# wgrain <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_wgrain.csv", header=T) 
-# procm <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_procm.csv", header=T) 
-# rmeat <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_rmeat.csv", header=T) 
-# poul <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_poul.csv", header=T) 
-# fish <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_fish.csv", header=T) 
-# egg <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_egg.csv", header=T) 
-# dairy <- read.csv("/udd/nhtes/git/protein-metab-mortality/Results_dairy.csv", header=T) 
+# vprot_p <- read.csv(file.path(repo, "Results_vprot_p.csv"), header=T) 
+# aprot_p <- read.csv(file.path(repo, "Results_aprot_p.csv"), header=T) 
+# prot_ratio <- read.csv(file.path(repo, "Results_prot_ratio.csv"), header=T) 
+# legu <- read.csv(file.path(repo, "Results_legu.csv"), header=T) 
+# nuts <- read.csv(file.path(repo, "Results_nuts.csv"), header=T) 
+# rgrain <- read.csv(file.path(repo, "Results_rgrain.csv"), header=T) 
+# wgrain <- read.csv(file.path(repo, "Results_wgrain.csv"), header=T) 
+# procm <- read.csv(file.path(repo, "Results_procm.csv"), header=T) 
+# rmeat <- read.csv(file.path(repo, "Results_rmeat.csv"), header=T) 
+# poul <- read.csv(file.path(repo, "Results_poul.csv"), header=T) 
+# fish <- read.csv(file.path(repo, "Results_fish.csv"), header=T) 
+# egg <- read.csv(file.path(repo, "Results_egg.csv"), header=T) 
+# dairy <- read.csv(file.path(repo, "Results_dairy.csv"), header=T) 
 
 
 #### Heatmap using GGPLOT ####
@@ -375,7 +376,7 @@ plot <- ggplot(data = estimate_melt, aes(x = variable, y = Metabolite, fill = va
                                           nrow = 2, 
                                           label.position = "bottom"))
 
-ggsave(filename=file.path("/udd/nhtes/git/protein-metab-mortality/Heatmap/Heatmap_ztrans_multi-ep.svg"), 
+ggsave(filename=file.path(file.path(repo, "Heatmap/Heatmap_ztrans_multi-ep.svg")), 
        plot = plot, dpi = 300, width = 15, height = 40)  
 
 
@@ -473,6 +474,6 @@ venn_gg <- ggplot() +
   coord_equal(xlim = c(-8, 8), ylim = c(-7, 8), clip = "off") +
   theme_void()
 
-ggsave("/udd/nhtes/git/protein-metab-mortality/Heatmap/Venn_proportional.pdf",
+ggsave(file.path(repo, "Heatmap/Venn_proportional.pdf"),
        plot = venn_gg, width = 10, height = 8, device = "pdf")
 

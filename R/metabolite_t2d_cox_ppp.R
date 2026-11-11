@@ -9,14 +9,13 @@
 ####   calor_avg + strata(cacoall, cohort, endpoint, agemo)
 #### Metabolites are already z-scored (per 1 SD).
 ####
-#### Run: source("/udd/nhtes/git/protein-metab-mortality/metabolite_t2d_cox_ppp.R")
+#### Run: source(file.path(repo, "metabolite_t2d_cox_ppp.R"))
 
+source("00_paths.R")
 library(survival)
 library(dplyr)
 
 options(device = function(...) grDevices::pdf(file = NULL))
-
-repo   <- "/udd/nhtes/git/protein-metab-mortality"
 review <- file.path(repo, "Review")
 if (!dir.exists(review)) dir.create(review, recursive = TRUE)
 

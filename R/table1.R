@@ -1,3 +1,4 @@
+source("00_paths.R")
 
 ########################################
 ### Table 1 and Supplemental Table 1 ###
@@ -5,7 +6,7 @@
 
 
 #load the imputed and ztransformed metabolites
-load("/udd/nhtes/git/protein-metab-mortality/imp_ztran_met_PR_multi_ep.RData") 
+load(file.path(repo, "imp_ztran_met_PR_multi_ep.RData")) 
 gdata::keep(AllCohorts_clean, sure=T)
 
 AllCohorts_clean_ztransformed <- AllCohorts_clean
@@ -16,7 +17,6 @@ factor=c("white", "fast", "multivit", "htn", "hchol", "diab", "hbpmed", "cholmed
 for (i in 1:length(factor)){
   AllCohorts_clean_ztransformed[, factor[i]]=as.factor(AllCohorts_clean_ztransformed[, factor[i]])
 }
-
 
 library(tableone)
 table1_cohort <- CreateTableOne(data = AllCohorts_clean_ztransformed,
@@ -40,7 +40,7 @@ csv_cohort <- print(table1_cohort,
 library(openxlsx)
 write.xlsx(list("bycohort"=csv_cohort),
            rowNames = T,
-           file = "/udd/nhtes/git/protein-metab-mortality/Tables/table1.xlsx")
+           file = file.path(repo, "Tables/table1.xlsx"))
 
 
 ###################
@@ -49,7 +49,7 @@ write.xlsx(list("bycohort"=csv_cohort),
 
 
 #load the imputed and ztransformed metabolites
-WHI <- read.csv("/udd/nhtes/git/protein-metab-mortality/WHI-replication/WHI_replic.csv")
+WHI <- read.csv(file.path(repo, "WHI-replication/WHI_replic.csv"))
 
 ## convert categorical variables to factors
 factor=c("ETHNIC", "SMOKING") 

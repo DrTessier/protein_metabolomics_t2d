@@ -5,9 +5,8 @@
 #### Does not overwrite heatmap_multi-ep.RData or Results_indmetab_db2.csv.
 ####
 #### Run after metabolite_t2d_cox_ppp.R:
-####   source("/udd/nhtes/git/protein-metab-mortality/heatmap_full_ppp_export.R")
-
-repo   <- "/udd/nhtes/git/protein-metab-mortality"
+####   source(file.path(repo, "heatmap_full_ppp_export.R"))
+source("00_paths.R")
 review <- file.path(repo, "Review")
 if (!dir.exists(review)) dir.create(review, recursive = TRUE)
 
