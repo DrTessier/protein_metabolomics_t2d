@@ -29,9 +29,10 @@ Change `repo` (and paths such as biomarker `RData` under `/udd/nhfwa/...`) if yo
 6. `R/food_contribution_signatures.R` — food-group dominance (`Review/food_contribution_signatures.csv`).
 7. `R/signature_r2_diet_vs_covariates.R` — sequential R² (Supplementary Table 5).
 8. `R/biomarker_phyto202509.R` — partial correlations with biomarkers.
-9. `R/correlations.R` — signature–intake correlations (discovery + WHI) for Figure 2.
-10. `R/figure3_intake_dominance.R` — Figure 3.
-11. `R/figure4_metabolite_biomarker.R` — Figure 4.
+9. `R/correlations.R` — signature–intake correlations (discovery + WHI).
+10. `R/figure2_signature_biomarker.R` — Figure 2 (after biomarker CSV exists).
+11. `R/figure3_intake_dominance.R` — Figure 3.
+12. `R/figure4_metabolite_biomarker.R` — Figure 4.
 
 WHI-specific steps are documented in the headers of `correlations.R` and related figure scripts.
 
