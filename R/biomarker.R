@@ -1,7 +1,7 @@
 #### Biomarkers: merge discovery signatures + T2D with external lab files, then partial correlations
-#### Labs: biomarker.RData object `pool` (NOT biomarker_con.RData).
+#### Labs: biomarker.RData object `pool`
 #### Merge: newid only.
-#### Run: source(file.path(repo, "biomarker_phyto202509.R"))
+#### Run: source(file.path(repo, "biomarker.R"))
 
 source("00_paths.R")
 library(dplyr)
