@@ -2,7 +2,7 @@
 
 Analysis code for elastic-net metabolomic signatures of plant protein, animal protein, and the plant-to-animal protein ratio in the Nurses' Health Study (NHS), NHSII, and Health Professionals Follow-up Study (HPFS), with replication in the Women's Health Initiative (WHI), and prospective associations with incident type 2 diabetes.
 
-This repository contains scripts for the **primary analyses** reported in the manuscript (Cox models, metabolome-wide associations, biomarker partial correlations, dominance analysis, sequential R², figures, and supplementary tables). It does **not** include sensitivity scripts for elastic-net hyperparameters, selection-frequency reporting, or imputation diagnostics.
+This repository contains scripts for the analyses reported in the manuscript (Cox models, metabolome-wide associations, biomarker partial correlations, dominance analysis, sequential R², figures, and supplementary tables). 
 
 ## Requirements
 
