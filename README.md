@@ -2,12 +2,12 @@
 
 Analysis code for elastic-net metabolomic signatures of plant protein, animal protein, and the plant-to-animal protein ratio in the Nurses' Health Study (NHS), NHSII, and Health Professionals Follow-up Study (HPFS), with replication in the Women's Health Initiative (WHI), and prospective associations with incident type 2 diabetes.
 
-This repository contains scripts for the **primary analyses** reported in the manuscript, including **elastic-net signature derivation**, Cox models, biomarker partial correlations, dominance analysis, sequential R², figures, and supplementary tables. It does **not** include sensitivity-only scripts (e.g. alpha 0.3/0.7, selection-frequency tables for reviewers, or imputation count diagnostics).
+This repository contains scripts for the analyses reported in the manuscript, including elastic-net signature derivation, Cox models, metabolome-wide associations, biomarker partial correlations, dominance analysis, sequential R², figures, and supplementary tables.
 
 ## Requirements
 
 - R (≥ 4.x) with packages used in the scripts (e.g. `survival`, `dplyr`, `tidyverse`, `glmnet`, `domir`, `ggplot2`, `patchwork`, `tableone`, `VennDiagram`, as needed per script).
-- Access to cohort analysis files on the Channing/Linux analysis environment (paths below are not public).
+- Cohort data files, which are not included in this repository. Set their locations in `R/00_paths.R`.
 
 ## Path configuration
 
@@ -31,9 +31,9 @@ From `R/` (after editing `00_paths.R`):
    - `enet_step2_leave_one_out_training.R` → `enet_run_all_step2()` (slow)
    - `enet_step3_merge_final_scores.R` → `enet_run_all_step3()`
 
-Outputs: `Enet/<Plant|Animal|Protein_ratio>/Prediction_merge_*.RData` and `Prediction_results_*.RData`, matching what downstream scripts load.
+The three signatures use the same steps. Step 1 saves the random-number state and step 2 continues from it. The final repetition is the first of the 100 runs with the most frequent metabolite count.
 
-File names for the ratio signature use `PR_multi_ep` (underscore); see `enet_signature_config.R` if your saved files differ.
+Outputs are the signature workspace and `signature_plant.csv`, `signature_animal.csv`, and `signature_ratio.csv`.
 
 ## Suggested run order (discovery)
 
@@ -44,7 +44,7 @@ File names for the ratio signature use `PR_multi_ep` (underscore); see `enet_sig
 5. `R/script.R` — signature and self-reported protein Cox models (Table 2, supplementary self-report, controls-only sensitivity).
 6. `R/food_contribution_signatures.R` — food-group dominance (`Review/food_contribution_signatures.csv`).
 7. `R/signature_r2_diet_vs_covariates.R` — sequential R² (Supplementary Table 5).
-8. `R/biomarker_phyto202509.R` — partial correlations with biomarkers.
+8. `R/biomarker.R` — partial correlations with biomarkers.
 9. `R/correlations.R` — signature–intake correlations (discovery + WHI).
 10. `R/figure2_signature_biomarker.R` — Figure 2 (after biomarker CSV exists).
 11. `R/figure3_intake_dominance.R` — Figure 3.

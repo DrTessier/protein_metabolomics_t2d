@@ -16,7 +16,7 @@ signature$newid <- signature$ID
 signature$cohort <- "WHI"
 merge_WHI <- signature[,c("newid", "aprot_avg_p", "cohort", "aprot_p_sig")]
 
-merge_harvard <- read.csv(file.path(repo, "Enet/Animal/signature_aprot_0606-PR.csv"))
+merge_harvard <- read.csv(file.path(repo, "Enet/Animal/signature_animal.csv"))
 merge_harvard <- merge_harvard[,c("newid", "aprot_avg_p", "cohort", "aprot_p_sig")]
 
 ### Merge both datasets
@@ -137,7 +137,7 @@ signature_vprot$newid <- signature_vprot$ID
 signature_vprot$cohort <- "WHI"
 merge_WHI <- signature_vprot[,c("newid", "vprot_avg_p", "cohort", "vprot_p_sig")]
 
-merge_harvard <- read.csv(file.path(repo, "Enet/Plant/signature_vprot_0606-PR.csv"))
+merge_harvard <- read.csv(file.path(repo, "Enet/Plant/signature_plant.csv"))
 merge_harvard <- merge_harvard[,c("newid", "vprot_avg_p", "cohort", "vprot_p_sig")]
 
 ### Merge both datasets
@@ -260,7 +260,7 @@ signature_pr$newid <- signature_pr$ID
 signature_pr$cohort <- "WHI"
 merge_WHI <- signature_pr[,c("newid", "protein_ratio", "cohort", "protein_ratio_sig")]
 
-merge_harvard <- read.csv(file.path(repo, "Enet/Protein_ratio/signature_pr_0606.csv"))
+merge_harvard <- read.csv(file.path(repo, "Enet/Protein_ratio/signature_ratio.csv"))
 merge_harvard <- merge_harvard[,c("newid", "protein_ratio", "cohort", "protein_ratio_sig")]
 
 ### Merge both datasets

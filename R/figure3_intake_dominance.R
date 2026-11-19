@@ -68,7 +68,7 @@ signature_vprot$vprot_p_sig <- signature_vprot$sig
 signature_vprot$newid <- signature_vprot$ID
 signature_vprot$cohort <- "WHI"
 v_whi <- signature_vprot[, c("newid", "vprot_avg_p", "cohort", "vprot_p_sig")]
-v_har <- read.csv(file.path(repo, "Enet/Plant/signature_vprot_0606-PR.csv"))
+v_har <- read.csv(file.path(repo, "Enet/Plant/signature_plant.csv"))
 v_har <- v_har[, c("newid", "vprot_avg_p", "cohort", "vprot_p_sig")]
 v_all <- rbind(v_har, v_whi)
 v_all$cohort <- format_cohort(v_all$cohort)
@@ -79,7 +79,7 @@ signature$aprot_p_sig <- signature$sig
 signature$newid <- signature$ID
 signature$cohort <- "WHI"
 a_whi <- signature[, c("newid", "aprot_avg_p", "cohort", "aprot_p_sig")]
-a_har <- read.csv(file.path(repo, "Enet/Animal/signature_aprot_0606-PR.csv"))
+a_har <- read.csv(file.path(repo, "Enet/Animal/signature_animal.csv"))
 a_har <- a_har[, c("newid", "aprot_avg_p", "cohort", "aprot_p_sig")]
 a_all <- rbind(a_har, a_whi)
 a_all$cohort <- format_cohort(a_all$cohort)
@@ -90,7 +90,7 @@ signature_pr$protein_ratio_sig <- signature_pr$sig
 signature_pr$newid <- signature_pr$ID
 signature_pr$cohort <- "WHI"
 r_whi <- signature_pr[, c("newid", "protein_ratio", "cohort", "protein_ratio_sig")]
-r_har <- read.csv(file.path(repo, "Enet/Protein_ratio/signature_pr_0606.csv"))
+r_har <- read.csv(file.path(repo, "Enet/Protein_ratio/signature_ratio.csv"))
 r_har <- r_har[, c("newid", "protein_ratio", "cohort", "protein_ratio_sig")]
 r_all <- rbind(r_har, r_whi)
 r_all$cohort <- format_cohort(r_all$cohort)

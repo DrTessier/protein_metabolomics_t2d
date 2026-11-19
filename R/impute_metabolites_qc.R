@@ -1,6 +1,6 @@
 #### Imputation and within-batch z-scoring of metabolites (discovery cohort input for elastic net)
 #### Requires: merged cohort CSV and metabolite QC file at paths under `repo` (see below).
-#### Output: file.path(repo, "imp_ztran_met_PR_multi_ep.RData") with object AllCohorts_clean
+#### Output: imputed cohort workspace with object AllCohorts_clean
 
 source("00_paths.R")
 
@@ -12,7 +12,7 @@ library(missRanger)
 library(moments)
 
 cohort_csv <- file.path(repo, "AllCohorts_protein_PR_excl.csv")
-qc_rdata   <- file.path(repo, "readin20240606.RData")
+qc_rdata   <- file.path(repo, "metabolite_qc.RData")
 
 if (!file.exists(cohort_csv)) {
   stop("Place merged discovery CSV at: ", cohort_csv, call. = FALSE)
@@ -90,4 +90,4 @@ AllCohorts_clean <- AllCohorts_clean[
 ]
 
 save.image(file.path(repo, "imp_ztran_met_PR_multi_ep.RData"))
-cat("Wrote", file.path(repo, "imp_ztran_met_PR_multi_ep.RData"), "\n")
+cat("Imputed cohort saved\n")

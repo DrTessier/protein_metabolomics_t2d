@@ -1,8 +1,6 @@
-#### Step 2 — Leave-one-out signature scores on the training set (70% partition from step 1)
-#### Input:  Prediction_train_test_<tag>.RData
-#### Output: Prediction_getscore_trainset_<tag>.RData  (train with LOO score in the last column)
-####
-#### Warning: slow (~ nrow(train) × cost of cv.glmnet per row).
+#### Step 2 — leave-one-out scores for the training set
+#### Continues the random-number stream saved at the end of step 1.
+#### The score is added as the last column of the training data.
 
 source("00_paths.R")
 source("enet_signature_config.R")
@@ -13,35 +11,36 @@ enet_run_step2 <- function(sig_name) {
   cfg <- enet_signatures[[sig_name]]
   step1 <- step1_path(cfg)
   if (!file.exists(step1)) stop("Run step 1 first: ", step1, call. = FALSE)
-  load(step1)
 
-  met_cols <- seq_len(N_METABOLITES)
-  n_train  <- nrow(train)
-  loo_col  <- "loo_signature_score"
+  saved <- new.env()
+  load(step1, envir = saved)
+  restore_seed(saved)
+  train <- saved$train
 
-  train[[loo_col]] <- NA_real_
+  for (i in 1:dim(train)[1]) {
+    if (i %% 50 == 0) cat(cfg$label, "LOO", i, "/", nrow(train), "\n")
 
-  for (i in seq_len(n_train)) {
-    if (i %% 50L == 0L) cat(cfg$label, "LOO", i, "/", n_train, "\n")
-    idx <- setdiff(seq_len(n_train), i)
-    Training <- cv.glmnet(
-      as.matrix(train[idx, met_cols]),
-      train[idx, cfg$intake],
-      nfolds = 10, alpha = ENET_ALPHA, family = "gaussian"
-    )
-    lambda_1se <- Training$lambda.1se
-    train[i, loo_col] <- as.numeric(
-      predict(Training, as.matrix(train[i, met_cols, drop = FALSE]),
-              type = "response", s = lambda_1se)
-    )
+    Training <- cv.glmnet(as.matrix(train[-i, c(1:243)]), train[-i, cfg$intake],
+                          nfolds = 10, alpha = ENET_ALPHA, family = "gaussian")
+    lambda_min_10F <- Training$lambda.1se
+
+    if (i == 1) {
+      train[i, dim(train)[2] + 1] <- predict(
+        Training, as.matrix(train[i, c(1:243)]), type = "response", s = lambda_min_10F
+      )
+    } else if (i > 1) {
+      train[i, dim(train)[2]] <- predict(
+        Training, as.matrix(train[i, c(1:243)]), type = "response", s = lambda_min_10F
+      )
+    }
   }
 
+  saved$train <- train
   out_file <- file.path(repo, "Enet", cfg$enet_subdir,
                         paste0("Prediction_getscore_trainset_", cfg$file_tag, ".RData"))
-  if (!file.exists(dirname(out_file))) dir.create(dirname(out_file), recursive = TRUE)
-  save(train, file = out_file)
-  cat("Wrote", out_file, "\n")
-  invisible(train)
+  save_with_seed(saved, out_file)
+  cat(cfg$label, "step 2 complete\n")
+  invisible(out_file)
 }
 
 enet_run_all_step2 <- function() {
